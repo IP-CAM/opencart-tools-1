@@ -7,12 +7,9 @@ task :default do
   lines = lines.map do |l| 
     l = l.gsub(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/, '|')
 
-    code, name, pkg, price, size, category1, category2 = l.split('|').map(&:strip).map { |i| i.gsub(/\"/, '').split(' ').map(&:capitalize).join(' ')}
+    code, name, pkg, price, unit, category1, category2 = l.split('|').map(&:strip).map { |i| i.gsub(/\"/, '').split(' ').map(&:capitalize).join(' ')}
     next if category1 == 'Accent'
 
-    product = Product.new
-    product.image = code
-    
     # create a new category
     # hack to avoid duplicates since the name and description is in separate table
     category = Category.find_or_create_by(image: category1)
@@ -24,6 +21,17 @@ task :default do
       child.parent_id = category.id
       child.save
       desc = CategoryDescription.new(name: category2, category_id: child.id)
+      desc.save
+    end
+
+    product = Product.new
+    product.categories << category if category
+    product.categories << child if child
+    product.image = code
+    product.price = price
+    product.model = category1+code
+    if product.save
+      desc = ProductDescription.new(name: [name, unit].join(' - '), product_id: product.id)
       desc.save
     end
     

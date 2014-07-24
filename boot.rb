@@ -3,6 +3,8 @@ $:.unshift File.dirname(__FILE__)
 require 'category'
 require 'category_description'
 require 'category_path'
+require 'product'
+require 'product_description'
 
 
 ActiveRecord::Base.establish_connection(
@@ -11,7 +13,7 @@ ActiveRecord::Base.establish_connection(
   host: 'localhost',
   username: 'root',
   password: '',
-  database: 'abassa'
+  database: 'ocart'
 
 )
 
