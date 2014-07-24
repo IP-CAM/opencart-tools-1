@@ -4,8 +4,7 @@ class ProductDescription < ActiveRecord::Base
   self.table_name = 'product_description'
 
   validates :name, presence: true
-  validates :name, uniqueness: true
-
+  
   # category_description table has most of the fields set to not null just
   # double check the fields that are present in the file and take em out
 
