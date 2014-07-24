@@ -8,7 +8,7 @@ task :default do
     l = l.gsub(/,(?=(?:[^"]*"[^"]*")*[^"]*$)/, '|')
 
     code, name, pkg, price, unit, category1, category2 = l.split('|').map(&:strip).map { |i| i.gsub(/\"/, '').split(' ').map(&:capitalize).join(' ')}
-    next if category1 == 'Accent'
+    next if category1 == 'Accent' || name.length < 5
 
     # create a new category
     # hack to avoid duplicates since the name and description is in separate table
