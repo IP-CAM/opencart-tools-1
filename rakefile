@@ -31,12 +31,17 @@ task :default do
     product.categories << category if category
     product.categories << child if child
     product.image = code + ".jpg"
-    product.price = price
+    product.price = [price, unit].join(' ')
     product.model = code
     if product.save
       product_store = ProductStore.find_or_create_by(product_id: product.id, store_id: 0)
       product_store.save
-      desc = ProductDescription.new(name: [name, unit].join(' - '), product_id: product.id)
+
+      desc = ProductDescription.new(
+        name: name,
+        description: pkg, 
+        product_id: product.id
+      )
       desc.save
     end
     
