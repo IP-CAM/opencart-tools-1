@@ -8,6 +8,7 @@ class Category < ActiveRecord::Base
 
   # declare the associations
   has_one :category_description
+  has_and_belongs_to_many :stores, join_table: "product_to_store"
 
 
   before_save :set_defaults

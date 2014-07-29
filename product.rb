@@ -6,6 +6,7 @@ class Product < ActiveRecord::Base
 	validates :image, uniqueness: true
 
 	has_and_belongs_to_many :categories, join_table: "product_to_category"
+	has_and_belongs_to_many :stores, join_table: "product_to_store"
 
 	before_save :set_defaults
 

@@ -13,6 +13,7 @@ task :default do
     # create a new category
     # hack to avoid duplicates since the name and description is in separate table
     category = Category.find_or_create_by(image: category1)
+    catetory_store = CategoryStore.find_or_create_by(category_id: category.id, store_id: 0)
     desc = CategoryDescription.new(name: category1, category_id: category.id)
     desc.save
 
@@ -20,6 +21,8 @@ task :default do
       child = Category.find_or_create_by(image: category2)
       child.parent_id = category.id
       child.save
+      catetory_store = CategoryStore.find_or_create_by(category_id: child.id, store_id: 0)
+      catetory_store.save
       desc = CategoryDescription.new(name: category2, category_id: child.id)
       desc.save
     end
@@ -27,10 +30,12 @@ task :default do
     product = Product.new
     product.categories << category if category
     product.categories << child if child
-    product.image = code
+    product.image = code + ".jpg"
     product.price = price
-    product.model = category1+code
+    product.model = code[7..-1]
     if product.save
+      product_store = ProductStore.find_or_create_by(product_id: product.id, store_id: 0)
+      product_store.save
       desc = ProductDescription.new(name: [name, unit].join(' - '), product_id: product.id)
       desc.save
     end
