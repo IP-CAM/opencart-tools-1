@@ -30,7 +30,7 @@ task :default do
     product = Product.new
     product.categories << category if category
     product.categories << child if child
-    product.image = code + ".jpg"
+    product.image = "data/products/" + code + ".jpg" || ''
     product.price = [price, unit].join(' ')
     product.model = code
     if product.save
