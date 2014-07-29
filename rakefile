@@ -32,7 +32,7 @@ task :default do
     product.categories << child if child
     product.image = code + ".jpg"
     product.price = price
-    product.model = code[7..-1]
+    product.model = code
     if product.save
       product_store = ProductStore.find_or_create_by(product_id: product.id, store_id: 0)
       product_store.save
